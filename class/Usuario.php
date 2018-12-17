@@ -66,7 +66,7 @@
 		}
 
 		public static function search($login) {
-
+git
 			$sql = new Sql();
 
 			return $sql->select("SELECT * FROM tb_usuarios WHERE des_login LIKE :LOGIN ORDER BY des_login", 
