@@ -7,6 +7,13 @@
 		private $des_senha;
 		private $dt_cadastro;
 
+		public function __construct($login = "", $senha = "") {
+
+			$this->setDesLogin($login);
+			$this->setDesSenha($senha);
+
+		}
+
 		public function getIdUsuario() {
 			return $this->id_usuario;
 		}
@@ -48,13 +55,7 @@
 			 
 			 if(count($results) > 0) {
 
-			 	$row = $results[0];
-
-			 	$this->setIdUsuario($row['id_usuario']);
-			 	$this->setDesLogin($row['des_login']);
-			 	$this->setDesSenha($row['des_senha']);
-			 	$this->setDtCadastro(new DateTime($row['dt_cadastro']));
-
+			 	$this->setData($results[0]);
 			 }
 		}
 
@@ -66,7 +67,7 @@
 		}
 
 		public static function search($login) {
-git
+
 			$sql = new Sql();
 
 			return $sql->select("SELECT * FROM tb_usuarios WHERE des_login LIKE :LOGIN ORDER BY des_login", 
@@ -86,18 +87,39 @@ git
 
 			if(count($results) > 0) {
 
-				$row = $results[0];
-
-				$this->setIdUsuario($row["id_usuario"]);
-				$this->setDesLogin($row["des_login"]);
-				$this->setDesSenha($row["des_senha"]);
-				$this->setDtCadastro(new DateTime($row["dt_cadastro"]));
+				$this->setData($results[0]);
 
 			} else {
 
 				throw new Exception("Login e/ou senha inválidos.");
 
 			}
+		}
+
+		public function insert() {
+
+			$sql = new Sql();
+
+			$results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)", array(
+				":LOGIN" => $this->getDesLogin(),
+				":PASSWORD" => $this->getDesSenha()
+			));
+
+			if(count($results) > 0) {
+
+				$this->setData($results[0]);				
+
+			}
+
+		}
+
+		public function setData($data) {
+
+			$this->setIdUsuario($data["id_usuario"]);
+			$this->setDesLogin($data["des_login"]);
+			$this->setDesSenha($data["des_senha"]);
+			$this->setDtCadastro(new DateTime($data["dt_cadastro"]));
+
 		}
 
 		public function __toString() {
