@@ -58,13 +58,57 @@
 			 }
 		}
 
+		public static function getList() {
+
+			$sql = new Sql();
+
+			return $sql->select("SELECT * FROM tb_usuarios ORDER BY des_login");
+		}
+
+		public static function search($login) {
+
+			$sql = new Sql();
+
+			return $sql->select("SELECT * FROM tb_usuarios WHERE des_login LIKE :LOGIN ORDER BY des_login", 
+				array(
+					":LOGIN" => "%" . $login . "%"
+				));
+		}
+
+		public function login($login, $password) {
+
+			$sql = new Sql();
+
+			$results = $sql->select("SELECT * FROM tb_usuarios WHERE des_login LIKE :LOGIN and des_senha = :PASSWORD", array(
+					":LOGIN" => $login,
+					":PASSWORD" => $password 
+				));
+
+			if(count($results) > 0) {
+
+				$row = $results[0];
+
+				$this->setIdUsuario($row["id_usuario"]);
+				$this->setDesLogin($row["des_login"]);
+				$this->setDesSenha($row["des_senha"]);
+				$this->setDtCadastro(new DateTime($row["dt_cadastro"]));
+
+			} else {
+
+				throw new Exception("Login e/ou senha inválidos.");
+
+			}
+		}
+
 		public function __toString() {
+
 			return json_encode(array(
-				"id_usuario"=>$this->getIdUsuario(),
-				"des_login"=>$this->getDesLogin(),
-				"des_senha"=>$this->getDesSenha(),
-				"dt_cadastro"=>$this->getDtCadastro()->format("d-m-Y H:i:s")
+				"id_usuario" => $this->getIdUsuario(),
+				"des_login" => $this->getDesLogin(),
+				"des_senha" => $this->getDesSenha(),
+				"dt_cadastro" => $this->getDtCadastro()->format("d-m-Y H:i:s")
 			));
+
 		}
 
 	}
