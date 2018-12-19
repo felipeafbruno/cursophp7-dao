@@ -25,10 +25,17 @@
 	//$usuario->login("Felipe", "felipe@felipe");
 	//echo $usuario;
 
-	$aluno = new Usuario("aluno", "aluno@aluno");
+	//Criando um novo usuário.
+	//$aluno = new Usuario("aluno", "aluno@aluno");
+	//$aluno->insert();
+	//echo $aluno;
 
-	$aluno->insert();
+	$usuario = new Usuario();
 
-	echo $aluno;
+	$usuario->loadById(13);
+
+	$usuario->update("Aluno", "aluno@1234");
+
+	echo $usuario;
 
 ?>

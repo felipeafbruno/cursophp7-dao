@@ -46,6 +46,15 @@
 			$this->dt_cadastro = $value;
 		}
 
+		public function setData($data) {
+
+			$this->setIdUsuario($data["id_usuario"]);
+			$this->setDesLogin($data["des_login"]);
+			$this->setDesSenha($data["des_senha"]);
+			$this->setDtCadastro(new DateTime($data["dt_cadastro"]));
+
+		}
+
 		public function loadById($id) {
 
 			$sql = new Sql();
@@ -113,12 +122,18 @@
 
 		}
 
-		public function setData($data) {
+		public function update($login, $password) {
 
-			$this->setIdUsuario($data["id_usuario"]);
-			$this->setDesLogin($data["des_login"]);
-			$this->setDesSenha($data["des_senha"]);
-			$this->setDtCadastro(new DateTime($data["dt_cadastro"]));
+			$sql = new Sql();
+
+			$this->setDesLogin($login);
+			$this->setDesSenha($password);
+
+			$results = $sql->select("UPDATE tb_usuarios SET des_login = :LOGIN, des_senha = :PASSWORD WHERE id_usuario = :ID", array(
+				":LOGIN" => $this->getDesLogin(),
+				":PASSWORD" => $this->getDesSenha(),
+				":ID" => $this->getIdUsuario()
+				));
 
 		}
 
