@@ -3,14 +3,11 @@
 	require_once("config.php");
 
 	//$sql = new Sql();
-
 	//$usuarios = $sql->select("SELECT * FROM tb_usuarios");	
 	//echo json_encode($usuarios);	
-
 	//Carrega apenas um usuário.
 	//$root = new Usuario();
 	//$root->loadById(6);
-	
 
 	//Carrega uma Lista de usuários.	
 	//$lista = Usuario::getList();	
@@ -30,12 +27,15 @@
 	//$aluno->insert();
 	//echo $aluno;
 
-	$usuario = new Usuario();
+	//Alterando um usuário
+	//$usuario = new Usuario();
+	//$usuario->loadById(13);
+	//$usuario->update("Aluno", "aluno@1234");
+	//echo $usuario;
 
-	$usuario->loadById(13);
-
-	$usuario->update("Aluno", "aluno@1234");
-
-	echo $usuario;
-
+	//Deletendo um usuário.
+	//$usuario = new Usuario();
+	//$usuario->loadById(10);
+	//$usuario->delete();
+	//echo $usuario;
 ?>
